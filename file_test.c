@@ -8,10 +8,10 @@ int main() {
   int max_file_length = 100;
   struct file_system A;
   
-  strncpy(A.inode_list[0].file_name,"taco.txt",999);
+  strncpy(A.inode_list[0].file_name,"taco.txt",99);
   A.inode_list[0].file_name[max_file_length-1]='\0';
   
-  strncpy(A.inode_list[997].file_name,"test2.txt",999);
+  strncpy(A.inode_list[997].file_name,"test2.txt",99);
   A.inode_list[997].file_name[max_file_length-1]='\0';
   
   printf("%lu\n",sizeof(struct inode));
