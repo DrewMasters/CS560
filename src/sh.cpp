@@ -6,7 +6,9 @@
  *****************/
 
 #include <iostream>
+extern "C" {
 #include "file_system.h"
+}
 
 using namespace std;
 
@@ -16,7 +18,7 @@ int main(int argc, char *argv[]) {
   cout << prompt;
   while(cin >> temp) {
     if(temp=="mkfs") {
-      cout << "good job Joe\n";
+      cout << "making file system" << endl;
     }
     else if(temp=="exit") {
       break;

@@ -1,17 +1,23 @@
+CC=gcc
+CFLAGS=-g
+OBJ=obj
+SRC=src
+INC=include
+LIB=lib
+BIN=bin
+
+_OBJS=file_system.o
+OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
+
+LIBS=libfs.a
+
 all: file_system
 
-OBJS=file_system.o mkfs.o
-LIB=libfs.a
-INC=include
-
-file_system.o:
-	gcc -c -I$(INC) src/file_system.c
-
-mkfs.o:
-	gcc -c -I$(INC) src/mkfs.c
+$(OBJ)/%.o: $(SRC)/%.c 
+	$(CC) -c -I$(INC) -o $@ $< $(CFLAGS)
 
 $(LIB): $(OBJS)
-	ar rcs libfs.a $(OBJS)
+	ar rcs $(LIB)/libfs.a $(OBJS)
 
 file_system: $(LIB)
-	gcc -o file_system -I./include -L./lib/file_system.a ./src/file_system.c
+	g++ -o $(BIN)/sh -I$(INC) -L$(LIB) -lfs  $(SRC)/sh.cpp
