@@ -21,3 +21,6 @@ $(LIB): $(OBJS)
 
 file_system: $(LIB)
 	g++ -o $(BIN)/sh -I$(INC) -L$(LIB) -lfs  $(SRC)/sh.cpp
+
+clean:
+	rm $(OBJ)/* $(LIB)/* $(BIN)/*
