@@ -1,22 +1,26 @@
 #define MAX_FILE_NAME_LEN 100
+#define NUM_DIRECT_LINKS
+#define NUM_INODES
+#define NUM_FREE_LIST_BYTES
 
 struct directory {
   char files[100][100];
-  long inodes[10000]
+  long inodes[100]
+}
 
 struct inode {
-  //is directory
+  long self;
+  char file_type; //0 is regular, 1 is direcotry
   long size;
   long indirect;
-  long direct[12];
+  long direct[NUM_DIRECT_LINKS];
   char file_name[MAX_FILE_NAME_LEN];
-  long self; //own inode number
   //long pd; //parent directory used to make cd .. easier
 };
   
 struct file_system {
-  struct inode inode_list[1000];
-  char free_list[3125];
+  struct inode inode_list[NUM_INODES];
+  char free_list[NUM_FREE_LIST_BYTES];
   struct *work_dir;
   //some sort of structure to maintain full path for when cd .. is observed
 };
@@ -35,7 +39,7 @@ int find_first_free_page(struct file_system *fs)
   int i;
   int j=0; //position of first zero in number
 
-  for (i=0; i < 3125; i++)
+  for (i=0; i < NUM_FREE_LIST_BYTES; i++)
   {
     if (fs->free_list[i]!=255)
     {
