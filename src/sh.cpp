@@ -8,6 +8,7 @@
 #include <iostream>
 extern "C" {
 #include "file_system.h"
+#include "commands.h"
 }
 
 using namespace std;
@@ -18,7 +19,8 @@ int main(int argc, char *argv[]) {
   cout << prompt;
   while(cin >> temp) {
     if(temp=="mkfs") {
-      cout << "making file system" << endl;
+      //cout << "making file system" << endl;
+      fs_mkfs();
     }
     else if(temp=="exit") {
       break;
