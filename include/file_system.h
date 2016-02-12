@@ -1,8 +1,15 @@
+#define MAX_FILE_NAME_LEN 100
+
+struct directory {
+  char files[100][100];
+  long inodes[10000]
+
 struct inode {
+  //is directory
   long size;
   long indirect;
   long direct[12];
-  char file_name[100];
+  char file_name[MAX_FILE_NAME_LEN];
   long self; //own inode number
   //long pd; //parent directory used to make cd .. easier
 };
