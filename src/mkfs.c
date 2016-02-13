@@ -39,6 +39,10 @@ extern "C" void fs_mkfs(char *file_name) {
   //write root inode to file
   fwrite(i, sizeof(struct inode), 1, f); 
 
+  free(fs);
+  free(i);
+  fclose(f);
+
   return;
   //printf("hello world\n");
 }
