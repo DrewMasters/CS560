@@ -22,9 +22,16 @@ struct inode {
 struct file_system {
   struct inode inode_list[NUM_INODES];
   unsigned char free_list[NUM_FREE_LIST_BYTES];
-  //struct *work_dir;
+  //struct directory *work_dir; //current directory
+  //struct directory *root_dir; //root directory
   //some sort of structure to maintain full path for when cd .. is observed
 };
+
+struct file_descriptor {
+  struct inode *i;
+  long offset; //starts at the beginning of file used to point where things are suppose to be read from or wrote to
+  File *file; //actual file pointer to read and write from file
+}
 
 void set_page_free(struct file_system *fs, long num);
 int find_first_free_page(struct file_system *fs);
