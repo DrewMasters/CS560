@@ -29,7 +29,8 @@ struct file_system {
 
 struct file_descriptor {
   struct inode *i;
-  long offset; //starts at the beginning of file used to point where things are suppose to be read from or wrote to
+  long in_offset; //starts at the beginning of file used to point where things are suppose to be read from or wrote to
+  long out_offset; //actual position of file in "hard disk"
   File *file; //actual file pointer to read and write from file
 }
 

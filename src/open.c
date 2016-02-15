@@ -3,7 +3,7 @@
 #include "commands.h"
 #include <unistd.h>
 
-extern "C" struct file_descriptor fs_open(char *file_name) {
+extern "C" struct file_descriptor fs_open(char *file_name, char flag) {
   //create file_descriptor and return to caller
   File *f;
   struct file_descriptor *fd;
