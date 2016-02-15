@@ -1,0 +1,14 @@
+extern "C" void fs_mkfs(FILE * fp, struct file_system * F);
+extern "C" int fs_open();
+extern "C" int fs_read();
+extern "C" void fs_write();
+extern "C" void fs_seek();
+extern "C" void fs_close();
+extern "C" void fs_mkdir();
+extern "C" void fs_rmdir();
+extern "C" void fs_cd();
+extern "C" void fs_ls();
+extern "C" void fs_cat();
+extern "C" void fs_tree();
+extern "C" void fs_import();
+extern "C" void fs_export();

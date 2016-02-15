@@ -1,4 +1,4 @@
-CC=gcc
+CC=g++
 CFLAGS=-g
 OBJ=obj
 SRC=src
@@ -6,7 +6,7 @@ INC=include
 LIB=lib
 BIN=bin
 
-_OBJS=file_system.o
+_OBJS=file_system.o mkfs.o
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 LIBS=libfs.a
@@ -20,7 +20,8 @@ $(LIB): $(OBJS)
 	ar rcs $(LIB)/libfs.a $(OBJS)
 
 file_system: $(LIB)
-	g++ -o $(BIN)/sh -I$(INC) -L$(LIB) -lfs  $(SRC)/sh.cpp
+	g++ -o $(BIN)/sh -I$(INC) $(OBJS) $(SRC)/sh.cpp
+	#g++ -o $(BIN)/sh -I$(INC) obj/mkfs.o $(SRC)/sh.cpp
 
 clean:
-	rm $(OBJ)/* $(LIB)/* $(BIN)/*
+	rm $(OBJ)/* $(LIB)/* $(BIN)/* 

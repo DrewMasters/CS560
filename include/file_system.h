@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #define MAX_FILE_NAME_LEN 100
 #define MAX_SIZE_DIRECTORY 100
 #define NUM_DIRECT_LINKS 12
@@ -31,8 +33,8 @@ struct file_descriptor {
   struct inode *i;
   long in_offset; //starts at the beginning of file used to point where things are suppose to be read from or wrote to
   long out_offset; //actual position of file in "hard disk"
-  File *file; //actual file pointer to read and write from file
-}
+  FILE *file; //actual file pointer to read and write from file
+};
 
 void set_page_free(struct file_system *fs, long num);
 int find_first_free_page(struct file_system *fs);
