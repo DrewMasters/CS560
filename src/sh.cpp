@@ -9,6 +9,7 @@
 #include "commands.h"
 #include "file_system.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ int main(int argc, char *argv[]) {
   else fs_fname = "disk.disk";
 
   //open it and read in if exists
-  if( access( fs_fname.c_str(), F_OK ) != -1 ) {
+  if( access( fs_fname.c_str(), F_OK ) == 0 ) {
     // file exists
     fp = fopen(fs_fname.c_str(), "rb+");
     // read it into F
@@ -58,6 +59,9 @@ int main(int argc, char *argv[]) {
     }
     cout << prompt;
   }
+
+  //if file is empty delete file
+
   free(F);
   return 0;
 }
