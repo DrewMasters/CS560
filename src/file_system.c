@@ -40,9 +40,3 @@ void set_page_used(struct file_system *fs, long num) {
   int mod_eight=num%8;
   fs->free_list[div_eight]|=(1<<(7-mod_eight));
 }
-
-struct file_system connect_fs(char *file_name){
-  //creates a file system out of the file specified
-  //called from sh.c either with specified file from 
-  //command line or from fs_mkfs()
-}
