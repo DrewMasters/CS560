@@ -1,9 +1,10 @@
 #include <stdlib.h>
+#include <string.h>
 #include "file_system.h"
 #include "commands.h"
 #include <unistd.h>
 
-extern "C" void fs_cd(struct file_system * F, FILE * fp, char *dirname){
+extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname){
   //change current working directory to dirname
   int i;
   int flag = 1;
@@ -12,7 +13,8 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, char *dirname){
   fread(&dir, sizeof(struct directory), 1, fp);
   
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
-    if(dirname == dir.files[i]) {
+    printf("%s\n",dir.files[i]);
+    if(0==strcmp(dirname,dir.files[i])) {
       flag = 0;
       if( F->inode_list[dir.inodes[i]].file_type == 1 ) {
         F->cur_idx = dir.inodes[i];
@@ -22,4 +24,5 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, char *dirname){
     }
   }
   if(flag) printf("Directory not found\n");
+  rewind(fp);
 }

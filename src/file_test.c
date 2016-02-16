@@ -16,13 +16,14 @@ int main() {
   
   printf("%lu\n",sizeof(struct inode));
   printf("%lu\n",sizeof(struct file_system));
-  FILE * file= fopen("output", "wb");
+  FILE * file= fopen("output", "wb+");
   if (file != NULL) {
     fwrite(&A, sizeof(struct file_system), 1, file);
-    fclose(file);
+    //fclose(file);
   }
   struct file_system *B=malloc(sizeof(struct file_system));
-  file= fopen("output", "rb");
+  //file= fopen("output", "rb");
+  rewind(file); 
   if (file != NULL) {
     fread(B, sizeof(struct file_system), 1, file);
     fclose(file);
