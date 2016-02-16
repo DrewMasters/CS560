@@ -21,15 +21,16 @@ int main(int argc, char *argv[]) {
   FILE * fp;
 
   if(argc>2) exit(1);
-  else if(argc==2) fs_fname = argv[0];
+  else if(argc==2) fs_fname = argv[1];
   else fs_fname = "disk.disk";
+    
+  F = (struct file_system*)malloc(sizeof(struct file_system));
 
   //open it and read in if exists
   if( access( fs_fname.c_str(), F_OK ) == 0 ) {
     // file exists
     fp = fopen(fs_fname.c_str(), "rb+");
     // read it into F
-    F = (struct file_system*)malloc(sizeof(struct file_system));
     if( sizeof(struct file_system) != fread(F, sizeof(struct file_system), 1, fp)) {
       free(F);
       F = (struct file_system*)malloc(sizeof(struct file_system));
@@ -63,5 +64,6 @@ int main(int argc, char *argv[]) {
   //if file is empty delete file
 
   free(F);
+  fclose(fp);
   return 0;
 }
