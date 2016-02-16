@@ -46,15 +46,30 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   F->inode_list[0].file_type=1;
   F->inode_list[0].direct[0] = find_first_free_page(F);
   F->inode_list[0].size=sizeof(struct directory);
+
   dir.inodes[0]=0;
   dir.inodes[1]=0;
   strcpy(dir.files[0],".");
   strcpy(dir.files[1],"..");
 
+  printf("%s\n",dir.files[0]);
+  printf("%s\n",dir.files[1]);
+
+  for(j=0;j<MAX_SIZE_DIRECTORY;j++) {
+    dir.files[j][0]='\0';
+  }
+
   //write dir to F->inode_list[0]->direct[0]
   fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
   fwrite(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
+
+  //something wrong with readin
+  fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
+  fread(&dir, sizeof(struct directory), 1, fp);
+  rewind(fp);
+  printf("%s\n",dir.files[0]);
+  printf("%s\n",dir.files[1]);
 
   return;
 }
