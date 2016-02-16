@@ -5,6 +5,7 @@
 #define NUM_DIRECT_LINKS 12
 #define NUM_INODES 1000 
 #define NUM_FREE_LIST_BYTES 3125
+#define DISK_OFFSET 235136 
 #define DISK_SIZE 100000000
 
 struct directory {

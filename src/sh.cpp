@@ -52,6 +52,10 @@ int main(int argc, char *argv[]) {
       //free file_system struct
       fs_mkfs(fp, F);
     }
+    else if(temp == "cd") {
+      //need to get second word
+      cout << "got a cd" << endl;
+    }
     else if(temp=="exit") {
       break;
     }
