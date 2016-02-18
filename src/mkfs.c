@@ -27,15 +27,19 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   rewind(fp);
 
   //write filesystem to file
-  fwrite(F, sizeof(struct file_system), 1, fp);
+  int bw; //number of elements written to file
+	bw=fwrite(F, sizeof(struct file_system), 1, fp);
+  
+	printf("bw: %d\n",bw);
 
   //write root inode to file
   //fwrite(i, sizeof(struct inode), 1, fp); 
  
   //write memory
   for(j=0;j<DISK_SIZE;j++) {
-    fputc(0,fp);
-  }
+    bw=fputc(0,fp);
+    if(bw!=0) printf("bw2: %d\ni: %d\n",bw,j);
+	}
   rewind(fp);
 
   //write directory to inode
@@ -44,13 +48,18 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   F->cur_idx = 0;
   F->inode_list[0].self=0;
   F->inode_list[0].file_type=1;
-  F->inode_list[0].direct[0] = find_first_free_page(F);
+  int first_free_page=find_first_free_page(F);
+	printf("First free page at %d\n",first_free_page);
+	F->inode_list[0].direct[0] = first_free_page;//find_first_free_page(F);
   F->inode_list[0].size=sizeof(struct directory);
 
   dir.inodes[0]=0;
   dir.inodes[1]=0;
   strcpy(dir.files[0],".");
   strcpy(dir.files[1],"..");
+  
+	printf("correct sizeof dir: %d\n", sizeof(struct directory));
+	printf("our sizeof dir: %d\n", sizeof(dir));
 
   printf("%s\n",dir.files[0]);
   printf("%s\n",dir.files[1]);
@@ -60,13 +69,18 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   }
 
   //write dir to F->inode_list[0]->direct[0]
-  fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
-  fwrite(&dir, sizeof(struct directory), 1, fp);
-  rewind(fp);
+  int check;
+	printf("first direct page %d\n", F->inode_list[0].direct[0]);
+	check=fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  printf("check=%d\n",check);
+  bw=fwrite(&dir, sizeof(struct directory), 1, fp);
+  printf("bw3: %d\n",bw);
+	rewind(fp);
 
   //something wrong with readin
-  fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
-  fread(&dir, sizeof(struct directory), 1, fp);
+	check = fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  printf("check=%d\n",check);
+	fread(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
   printf("%s\n",dir.files[0]);
   printf("%s\n",dir.files[1]);
