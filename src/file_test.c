@@ -21,7 +21,7 @@ int main() {
     fwrite(&A, sizeof(struct file_system), 1, file);
     //fclose(file);
   }
-  struct file_system *B=malloc(sizeof(struct file_system));
+  struct file_system *B=(struct file_system*)malloc(sizeof(struct file_system));
   //file= fopen("output", "rb");
   rewind(file); 
   if (file != NULL) {

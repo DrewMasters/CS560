@@ -17,6 +17,7 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   //struct inode *i;
   struct directory dir;
   int j;
+  long pos;
  
   //inode in filesystem
   //i = (struct inode*)malloc(sizeof(struct inode));
@@ -24,28 +25,26 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
 
   free(F);
   F = (struct file_system*)malloc(sizeof(struct file_system));
-  rewind(fp);
 
-  //write filesystem to file
-  fwrite(F, sizeof(struct file_system), 1, fp);
-
-  //write root inode to file
-  //fwrite(i, sizeof(struct inode), 1, fp); 
- 
-  //write memory
-  for(j=0;j<DISK_SIZE;j++) {
-    fputc(0,fp);
-  }
-  rewind(fp);
-
-  //write directory to inode
+  //set up root inode
   //idx = get_inode;
   F->root_idx = 0;
   F->cur_idx = 0;
   F->inode_list[0].self=0;
   F->inode_list[0].file_type=1;
-  F->inode_list[0].direct[0] = find_first_free_page(F);
+  F->inode_list[0].direct[0] = sizeof(struct directory);//find_first_free_page(F);
   F->inode_list[0].size=sizeof(struct directory);
+  
+  rewind(fp);
+  //write filesystem to file
+  fwrite(F, sizeof(struct file_system), 1, fp);
+  //write memory
+  for(j=0;j<DISK_SIZE;j++) {
+    fputc('a',fp);
+  }
+  printf("seek to %ld\n",ftell(fp));
+  rewind(fp);
+  printf("seek to %ld\n",ftell(fp));
 
   dir.inodes[0]=0;
   dir.inodes[1]=0;
@@ -55,19 +54,23 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   printf("%s\n",dir.files[0]);
   printf("%s\n",dir.files[1]);
 
-  for(j=0;j<MAX_SIZE_DIRECTORY;j++) {
+  for(j=2;j<MAX_SIZE_DIRECTORY;j++) {
     dir.files[j][0]='\0';
   }
 
   //write dir to F->inode_list[0]->direct[0]
-  fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
+  fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  printf("seek to %ld\n",ftell(fp));
   fwrite(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
+  printf("seek to %ld\n",ftell(fp));
 
   //something wrong with readin
-  fseek(fp, F->inode_list[0].direct[0], DISK_OFFSET);
-  fread(&dir, sizeof(struct directory), 1, fp);
+  fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  printf("seek to %ld\n",ftell(fp));
+  printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
   rewind(fp);
+  printf("seek to %ld\n",ftell(fp));
   printf("%s\n",dir.files[0]);
   printf("%s\n",dir.files[1]);
 

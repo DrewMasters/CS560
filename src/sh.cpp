@@ -10,6 +10,8 @@
 #include "commands.h"
 #include "file_system.h"
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -29,19 +31,34 @@ int main(int argc, char *argv[]) {
   F = (struct file_system*)malloc(sizeof(struct file_system));
 
   fp = fopen(fs_fname.c_str(), "rb+");
+  printf("fp=%p\n",fp);
+  if(fp != NULL) {
   //open it and read in if exists
   if( access( fs_fname.c_str(), F_OK ) != -1 ) {
+    printf("Could access\n");
     // file exists
     // read it into F
-    if( sizeof(struct file_system) != fread(F, sizeof(struct file_system), 1, fp)) {
+    int bytes_read = fread(F, 1, sizeof(struct file_system), fp);
+    printf("read in %d bytes\n", bytes_read);
+    if( sizeof(struct file_system) != bytes_read) {
+      printf("Could not read it in\n");
       free(F);
       F = (struct file_system*)malloc(sizeof(struct file_system));
       fclose(fp);
       fp = fopen(fs_fname.c_str(), "wb+");
     }
+    else {
+      F->root_idx = 0;
+      F->cur_idx = 0;
+    }
   } else {
+      printf("Could not access\n");
   }
   rewind(fp);
+  } else {
+    printf("file could not be opened\n");
+    return 1;
+  }
   
 
   cout << prompt;
