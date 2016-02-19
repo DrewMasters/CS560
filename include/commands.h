@@ -7,7 +7,7 @@ extern "C" void fs_close();
 extern "C" void fs_mkdir();
 extern "C" void fs_rmdir();
 extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname);
-extern "C" void fs_ls();
+extern "C" void fs_ls(FILE * fp, struct file_system * F);
 extern "C" void fs_cat();
 extern "C" void fs_tree();
 extern "C" void fs_import();
