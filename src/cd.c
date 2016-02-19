@@ -20,7 +20,9 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname){
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
     //printf("%s\n",dir.files[i]);
     if(0==strcmp(dirname,dir.files[i])) {
-      flag = 0;
+      /*if found set flag to zero and check to see if inode file type is directory or not.
+        if inode file type is directory set file systems current directory to this directory's inode.*/
+      flag = 0; 
       if( F->inode_list[dir.inodes[i]].file_type == 1 ) {
         F->cur_idx = dir.inodes[i];
       } else {

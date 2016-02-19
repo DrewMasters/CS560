@@ -34,8 +34,7 @@ int main(int argc, char *argv[]) {
   printf("fp=%p\n",fp);
   if(fp != NULL) {
   //open it and read in if exists
-  if( access( fs_fname.c_str(), F_OK ) != -1 ) {
-    printf("Could access\n");
+  if( access( fs_fname.c_str(), F_OK ) == 0 ) {
     // file exists
     // read it into F
     int bytes_read = fread(F, 1, sizeof(struct file_system), fp);
@@ -86,6 +85,9 @@ int main(int argc, char *argv[]) {
     }
     cout << prompt;
   }
+
+  //if file is empty delete file
+
   free(F);
   fclose(fp);
   return 0;

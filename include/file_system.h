@@ -29,9 +29,6 @@ struct file_system {
   unsigned char free_list[NUM_FREE_LIST_BYTES];
   int root_idx;
   int cur_idx;
-  //struct directory *work_dir; //current directory
-  //struct directory *root_dir; //root directory
-  //some sort of structure to maintain full path for when cd .. is observed
 };
 
 struct file_descriptor {
