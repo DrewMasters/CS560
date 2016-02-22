@@ -25,14 +25,20 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
 
   free(F);
   F = (struct file_system*)malloc(sizeof(struct file_system));
+  for(j=0;j<NUM_INODES;j++) {
+    F->inode_list[0].in_use=0;
+  }
+  for(j=0;j<NUM_FREE_LIST_BYTES;j++) {
+    F->free_list[j]=0;
+  }
 
   //set up root inode
   //idx = get_inode;
   F->root_idx = 0;
   F->cur_idx = 0;
-  F->inode_list[0].self=0;
+  F->inode_list[0].in_use=1;
   F->inode_list[0].file_type=1;
-  F->inode_list[0].direct[0] = sizeof(struct directory);//find_first_free_page(F);
+  F->inode_list[0].direct[0] = find_first_free_page(F);
   F->inode_list[0].size=sizeof(struct directory);
   
   rewind(fp);

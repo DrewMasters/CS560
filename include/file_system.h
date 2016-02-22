@@ -14,8 +14,8 @@ struct directory {
 };
 
 struct inode {
-  
-  long self;
+  char in_use; //0 is not in use, 1 is in use 
+  //long self;
   char file_type; //0 is regular, 1 is direcotry
   long size;
   long indirect;
@@ -42,3 +42,4 @@ void set_page_free(struct file_system *fs, long num);
 int find_first_free_page(struct file_system *fs);
 void set_page_used(struct file_system *fs, long num);
 struct file_system connect_fs(char *file_name);
+int get_inode(struct file_system * F);

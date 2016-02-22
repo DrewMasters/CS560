@@ -77,6 +77,12 @@ int main(int argc, char *argv[]) {
       iss >> arg1;
       fs_cd(F,fp,arg1.c_str());
     }
+    else if(command == "mkdir") {
+      //need to get second word
+      cout << "got a mkdir" << endl;
+      iss >> arg1;
+      fs_mkdir(fp,F,arg1.c_str());
+    }
     else if(command == "ls") {
       fs_ls(fp,F);
     }

@@ -11,23 +11,29 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname){
   struct directory dir;
   //fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   //fread(&dir, 1, sizeof(struct directory), fp);
-  fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  printf("Going to %s\n",dirname);
+  fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   printf("seek to %ld\n",ftell(fp));
-  printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
+  fread(&dir, 1, sizeof(struct directory), fp);
   rewind(fp);
   printf("seek to %ld\n",ftell(fp));
-  
+  int r; 
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
-    //printf("%s\n",dir.files[i]);
-    if(0==strcmp(dirname,dir.files[i])) {
+    printf("%s\n",dir.files[i]);
+    r=strcmp(dirname,dir.files[i]);
+    printf("%d\n",r);
+    if(0==r/*strcmp(dirname,dir.files[i])*/) {
       /*if found set flag to zero and check to see if inode file type is directory or not.
         if inode file type is directory set file systems current directory to this directory's inode.*/
       flag = 0; 
+      printf("%s inode = %d\n",dir.files[i],dir.inodes[i]);
       if( F->inode_list[dir.inodes[i]].file_type == 1 ) {
         F->cur_idx = dir.inodes[i];
+        printf("going into location %d\n",F->cur_idx);
       } else {
         printf("Not a directory\n");
       }
+    break;
     }
   }
   if(flag) printf("Directory not found\n");

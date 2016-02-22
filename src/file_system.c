@@ -23,20 +23,36 @@ int find_first_free_page(struct file_system *fs)
     }
   }
 
-  while ((fs->free_list[pos]>>j)%2==1){
+  /*while ((fs->free_list[pos]>>j)%2==1){
+    j++;
+  }*/
+  while(fs->free_list[pos] & (1<<(7-j))) {
     j++;
   }
 
   set_page_used(fs, pos*8+j); //set the page as taken
   //should we just move the set_page_used function in here?
   //fs->free_list[pos]|=(1<<(7-j)); //set page as being used
-
-  return pos*8+j; //first free page number 
+  
+  printf("pos: %d\nj: %d\npage location: %d\n",pos,j,(int)sizeof(struct file_system)+(1024*4*(pos*8+j)));
+  return (int)sizeof(struct file_system) + (1024*4*(pos*8+j)); //first free page number 
 }
 
 void set_page_used(struct file_system *fs, long num) {
 // and with ~1
   int div_eight=num/8;
   int mod_eight=num%8;
+  printf("num: %ld\ndiv_eight: %ld\nmod_eight: %ld\n",num,div_eight,mod_eight);
   fs->free_list[div_eight]|=(1<<(7-mod_eight));
+}
+
+int get_inode(struct file_system * F) {
+  int i;
+  for(i=0;i<NUM_INODES;i++) {
+    if(F->inode_list[i].in_use==0) {
+      F->inode_list[i].in_use = 1;
+      return i;
+    }
+  }
+  printf("out of inodes\n");
 }
