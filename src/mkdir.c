@@ -12,6 +12,7 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
   int flag = 1;
   int tmp;
   struct directory dir;
+  struct directory dir2;
   fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   fread(&dir, 1, sizeof(struct directory), fp);
   rewind(fp);
@@ -40,8 +41,6 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
     }
   }
 
-  struct directory dir2;
-
   dir2.inodes[0]=inode_num;
   dir2.inodes[1]=F->cur_idx;
   strcpy(dir2.files[0],".");
@@ -51,6 +50,7 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
     dir2.files[j][0]='\0';
   }
 
+
   printf("seek to %lu\n",F->inode_list[F->cur_idx].direct[0]);
   fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   fwrite(&dir, sizeof(struct directory), 1, fp);
@@ -58,10 +58,14 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
   //fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   //fread(&dir, 1, sizeof(struct directory), fp);
   
-  printf("seek to %lu\n",F->inode_list[inode_num].direct[0]);
+  //fs_ls(fp,F);
+  
+  printf("seek to %lu\ngetting %lu",F->inode_list[inode_num].direct[0],sizeof(struct directory));
   fseek(fp, F->inode_list[inode_num].direct[0], SEEK_SET);
   fwrite(&dir2, sizeof(struct directory), 1, fp);
   rewind(fp);
+  
+  //fs_ls(fp,F);
 
-  F->cur_idx = inode_num;
+  //F->cur_idx = inode_num;
 }

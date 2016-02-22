@@ -1,12 +1,13 @@
 #include <stdio.h>
 
 #define MAX_FILE_NAME_LEN 100
-#define MAX_SIZE_DIRECTORY 100
+#define MAX_SIZE_DIRECTORY 90
 #define NUM_DIRECT_LINKS 12
 #define NUM_INODES 1000 
 #define NUM_FREE_LIST_BYTES 3125
 #define DISK_OFFSET 235136 
 #define DISK_SIZE 100000000
+#define PAGE_SIZE 10240
 
 struct directory {
   char files[MAX_SIZE_DIRECTORY][MAX_FILE_NAME_LEN];
