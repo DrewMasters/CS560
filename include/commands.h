@@ -5,7 +5,7 @@ extern "C" void fs_write();
 extern "C" void fs_seek();
 extern "C" void fs_close();
 extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname);
-extern "C" void fs_rmdir();
+extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname);
 extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname);
 extern "C" void fs_ls(FILE * fp, struct file_system * F);
 extern "C" void fs_cat();
