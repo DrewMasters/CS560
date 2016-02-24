@@ -86,6 +86,11 @@ int main(int argc, char *argv[]) {
 					else if(command == "ls") {
 									fs_ls(fp,F);
 					}
+					else if(command=="rmdir") {
+									cout << "got a rmdir" << endl;
+									iss >> arg1;
+									fs_rmdir(fp,F,arg1.c_str());
+					}
 					else if(command=="exit") {
 									break;
 					}

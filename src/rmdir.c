@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "file_system.h"
 #include "commands.h"
 #include <unistd.h>
@@ -39,7 +40,7 @@ extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname)
 					//set inode as not in use
 					F->inode_list[dir.inodes[i]].in_use=0;
 					//remove directory name from current directory
-					dir.files[i]='\0';
+					dir.files[i][0]='\0';
 					//write current directory back to file
 					fseek(fp,F->inode_list[F->cur_idx].direct[0], SEEK_SET);
 					fwrite(&dir, sizeof(struct directory),1,fp);
