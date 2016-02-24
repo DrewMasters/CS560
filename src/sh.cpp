@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   struct file_system * F;
   string temp;
   string command;
-  string arg1;
+  string arg1,arg2;
   string fs_fname;
   FILE * fp;
 
@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
 					getline(cin,temp);
 					istringstream iss(temp);
 					iss >> command;
+          //NEED TO RESET ARGS
 					if(command=="mkfs") {
 									//cout << "making file system" << endl;
 									//clear file
@@ -91,6 +92,11 @@ int main(int argc, char *argv[]) {
 									iss >> arg1;
 									fs_rmdir(fp,F,arg1.c_str());
 					}
+          else if(command=="open") {
+                  cout << "open" << endl;
+                  iss >> arg1 >> arg2;
+                  fs_open(fp,F,arg1.c_str(),arg2.c_str());
+          }
 					else if(command=="exit") {
 									break;
 					}

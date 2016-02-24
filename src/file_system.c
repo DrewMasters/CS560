@@ -7,6 +7,13 @@ void set_page_free(struct file_system *fs, long num) {
   fs->free_list[div_eight]&=~(1<<(7-mod_eight));
 }
 
+void free_page(struct file_system *fs, long num) {
+  num = num - sizeof(struct file_system);
+  num = num/PAGE_SIZE;
+  set_page_free(fs,num);
+}
+
+
 int find_first_free_page(struct file_system *fs)
 {
 //finds first free page in free list
@@ -55,4 +62,19 @@ int get_inode(struct file_system * F) {
     }
   }
   printf("out of inodes\n");
+}
+int get_fd(struct file_system * F) {
+  int i;
+  for(i=0;i<NUM_FILE_DESC;i++) {
+    if(F->fd[i].in_use==0) {
+      F->fd[i].in_use = 1;
+      return i;
+    }
+  }
+  printf("out of fds\n");
+  return -1;
+}
+
+void free_fd(struct file_system * F,int i) {
+  F->fd[i].in_use = 0;
 }

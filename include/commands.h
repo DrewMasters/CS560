@@ -1,5 +1,5 @@
 extern "C" void fs_mkfs(FILE * fp, struct file_system * F);
-extern "C" int fs_open();
+extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, const char *flag);
 extern "C" int fs_read();
 extern "C" void fs_write();
 extern "C" void fs_seek();

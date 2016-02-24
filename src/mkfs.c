@@ -26,7 +26,10 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   free(F);
   F = (struct file_system*)malloc(sizeof(struct file_system));
   for(j=0;j<NUM_INODES;j++) {
-    F->inode_list[0].in_use=0;
+    F->inode_list[j].in_use=0;
+  }
+  for(j=0;j<NUM_FILE_DESC;j++) {
+    F->fd[j].in_use=0;
   }
   for(j=0;j<NUM_FREE_LIST_BYTES;j++) {
     F->free_list[j]=0;

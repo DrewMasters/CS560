@@ -35,10 +35,16 @@ extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname)
 				fread(&dir2, 1, sizeof(struct directory), fp);
 				rewind(fp);
 				if( dir2.files[2][0]=='\0' ){
+          printf("freeing page %ld\n",F->inode_list[dir.inodes[i]].direct[0]);
+          fflush(stdout);
 					//free page
-					set_page_free(F, F->inode_list[dir.inodes[i]].direct[0]);
+					free_page(F, F->inode_list[dir.inodes[i]].direct[0]);
+          printf("set inode as not in use\n");
+          fflush(stdout);
 					//set inode as not in use
 					F->inode_list[dir.inodes[i]].in_use=0;
+          printf("set inode to not in use\n");
+          fflush(stdout);
 					//remove directory name from current directory
 					dir.files[i][0]='\0';
 					//write current directory back to file
