@@ -1,7 +1,7 @@
 extern "C" void fs_mkfs(FILE * fp, struct file_system * F);
 extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, const char *flag);
-extern "C" int fs_read();
-extern "C" void fs_write();
+extern "C" char * fs_read(FILE * fp, struct file_system * F, int file_d, int size);
+extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, char * w_string);
 extern "C" void fs_seek(FILE * fp, struct file_system * F, int fd, int offset);
 extern "C" void fs_close();
 extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname);

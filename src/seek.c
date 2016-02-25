@@ -18,5 +18,5 @@ extern "C" void fs_seek(FILE * fp, struct file_system * F, int file_d, int offse
   F->fd[file_d].in_offset=offset;
   //external offset will equal the offset mod page size index in the direct array
   //this gives the current page that is being worked on
-  F->fd[file_d].out_offset=F->fd[file_d].i->direct[offset%PAGE_SIZE];
+  F->fd[file_d].out_offset=F->fd[file_d].i->direct[offset/PAGE_SIZE]+(offset%PAGE_SIZE);
 } 
