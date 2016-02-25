@@ -2,7 +2,7 @@ extern "C" void fs_mkfs(FILE * fp, struct file_system * F);
 extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, const char *flag);
 extern "C" int fs_read();
 extern "C" void fs_write();
-extern "C" void fs_seek();
+extern "C" void fs_seek(FILE * fp, struct file_system * F, int fd, int offset);
 extern "C" void fs_close();
 extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname);
 extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname);
