@@ -3,9 +3,8 @@
 #include "commands.h"
 #include <unistd.h>
 
-extern "C" void fs_close(struct file_descriptor *fd){
+extern "C" void fs_close(FILE * fp, struct file_system * F, int fd){
   //close file_descriptor
-  //just free file_descriptor?
-  free(fd);
+  free_fd(F,fd);
   return;
 }

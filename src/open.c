@@ -40,6 +40,10 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
           F->fd[fd_num].type=1;
         }
       }
+      else {
+        free_fd(F,fd_num);
+        return -1;
+      }
     flag=1; 
     }
   }

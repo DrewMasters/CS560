@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ int main(int argc, char *argv[]) {
 	string fs_fname;
 	FILE * fp;
 	int a1,a2;
+  int ret_fd;
 
 	if(argc>2) exit(1);
 	else if(argc==2) fs_fname = argv[1];
@@ -96,7 +98,29 @@ int main(int argc, char *argv[]) {
 		else if(command=="open") {
 			cout << "open" << endl;
 			iss >> arg1 >> arg2;
-			fs_open(fp,F,arg1.c_str(),arg2.c_str());
+      ret_fd = fs_open(fp,F,arg1.c_str(),arg2.c_str());
+      if( -1 != ret_fd ) {
+        cout << "SUCCESS,fd=" << ret_fd  << endl;
+      }
+      else {
+        cout << "error, no fd available" << endl;
+      }
+		}
+		else if(command=="close") {
+			cout << "close" << endl;
+			iss >> arg1;
+			fs_close(fp,F,stoi(arg1));
+		}
+		else if(command=="read") {
+			cout << "read" << endl;
+			iss >> a1 >> a2;
+			cout << fs_read(fp,F,a1,a2) << endl;
+		}
+		else if(command=="write") {
+			cout << "write" << endl;
+			iss >> a1 >> arg1;
+      cout << arg1 << endl;
+			fs_write(fp,F,a1,arg1.c_str());
 		}
 		else if(command=="seek") {
 			cout << "seek" << endl;
