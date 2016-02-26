@@ -46,9 +46,11 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
       }
       else {
         printf("Only able to write %d bytes\n", total_written);
+        if(F->fd[file_d].in_offset > F->fd[file_d].i->size) F->fd[file_d].i->size = F->fd[file_d].in_offset;
 	      return;
       }
     }
   }
+  if(F->fd[file_d].in_offset > F->fd[file_d].i->size) F->fd[file_d].i->size = F->fd[file_d].in_offset;
   return;
 }

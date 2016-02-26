@@ -133,6 +133,11 @@ int main(int argc, char *argv[]) {
 			iss >> a1 >> a2;
 			fs_seek(fp,F,a1,a2);
 		}
+		else if(command=="cat") {
+			cout << "cat" << endl;
+			iss >> arg1;
+			fs_cat(fp,F,arg1.c_str());
+		}
 		else if(command=="exit") {
 			break;
 		}
