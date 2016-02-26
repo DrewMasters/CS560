@@ -117,8 +117,14 @@ int main(int argc, char *argv[]) {
 			cout << fs_read(fp,F,a1,a2) << endl;
 		}
 		else if(command=="write") {
+      string temp_str;
 			cout << "write" << endl;
 			iss >> a1 >> arg1;
+      while( iss >> temp_str ) {
+        arg1 += " " + temp_str;
+      }
+      cout << arg1 << endl;
+      arg1.erase(std::remove(arg1.begin(), arg1.end(), '"'), arg1.end());
       cout << arg1 << endl;
 			fs_write(fp,F,a1,arg1.c_str());
 		}
