@@ -138,6 +138,9 @@ int main(int argc, char *argv[]) {
 			iss >> arg1;
 			fs_cat(fp,F,arg1.c_str());
 		}
+		else if (command=="tree"){
+			fs_tree(fp,F,0);
+		}
 		else if(command=="export") {
 			cout << "export" << endl;
 			iss >> arg1 >> arg2;

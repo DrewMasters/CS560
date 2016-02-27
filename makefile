@@ -6,7 +6,7 @@ INC=include
 LIB=lib
 BIN=bin
 
-_OBJS=file_system.o mkfs.o cd.o ls.o mkdir.o rmdir.o open.o close.o seek.o read.o write.o cat.o export.o import.o
+_OBJS=file_system.o mkfs.o cd.o ls.o mkdir.o rmdir.o open.o close.o seek.o read.o write.o cat.o tree.o export.o import.o
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 LIBS=libfs.a
