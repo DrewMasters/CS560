@@ -16,7 +16,7 @@ extern "C" void fs_tree(FILE * fp, struct file_system * F, int tl){
 
 	for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
 		if(dir.files[i][0] != '\0') {
-			printf("%d %s\n",tl,dir.files[i]);
+			//printf("%d %s\n",tl,dir.files[i]);
 			for (j=0; j<tl; j++) printf("  ");  
 			if (F->inode_list[dir.inodes[i]].file_type == 0 || strcmp(".", dir.files[i])==0 || strcmp("..",dir.files[i])==0){
 				if (strcmp(".",dir.files[i])==0|| strcmp("..",dir.files[i])==0) printf("%s\n",dir.files[i]);

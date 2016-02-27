@@ -15,7 +15,7 @@ extern "C" void fs_ls(FILE * fp, struct file_system * F){
   
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
     if(dir.files[i][0] != '\0') {
-      printf("%s %d\n",dir.files[i],dir.inodes[i]);
+      printf("%s\n",dir.files[i]);//,dir.inodes[i]);
     }
   }
 }
