@@ -77,13 +77,13 @@ int main(int argc, char *argv[]) {
 		}
 		else if(command == "cd") {
 			//need to get second word
-			cout << "got a cd" << endl;
+			//cout << "got a cd" << endl;
 			iss >> arg1;
 			fs_cd(F,fp,arg1.c_str());
 		}
 		else if(command == "mkdir") {
 			//need to get second word
-			cout << "got a mkdir" << endl;
+			//cout << "got a mkdir" << endl;
 			iss >> arg1;
 			fs_mkdir(fp,F,arg1.c_str());
 		}
@@ -91,12 +91,12 @@ int main(int argc, char *argv[]) {
 			fs_ls(fp,F);
 		}
 		else if(command=="rmdir") {
-			cout << "got a rmdir" << endl;
+			//cout << "got a rmdir" << endl;
 			iss >> arg1;
 			fs_rmdir(fp,F,arg1.c_str());
 		}
 		else if(command=="open") {
-			cout << "open" << endl;
+			//cout << "open" << endl;
 			iss >> arg1 >> arg2;
       ret_fd = fs_open(fp,F,arg1.c_str(),arg2.c_str());
       if( -1 != ret_fd ) {
@@ -107,34 +107,34 @@ int main(int argc, char *argv[]) {
       }
 		}
 		else if(command=="close") {
-			cout << "close" << endl;
+			//cout << "close" << endl;
 			iss >> arg1;
 			fs_close(fp,F,stoi(arg1));
 		}
 		else if(command=="read") {
-			cout << "read" << endl;
+			//cout << "read" << endl;
 			iss >> a1 >> a2;
 			cout << fs_read(fp,F,a1,a2) << endl;
 		}
 		else if(command=="write") {
       string temp_str;
-			cout << "write" << endl;
+			//cout << "write" << endl;
 			iss >> a1 >> arg1;
       while( iss >> temp_str ) {
         arg1 += " " + temp_str;
       }
-      cout << arg1 << endl;
+      //cout << arg1 << endl;
       arg1.erase(std::remove(arg1.begin(), arg1.end(), '"'), arg1.end());
-      cout << arg1 << endl;
+      //cout << arg1 << endl;
 			fs_write(fp,F,a1,arg1.c_str());
 		}
 		else if(command=="seek") {
-			cout << "seek" << endl;
+			//cout << "seek" << endl;
 			iss >> a1 >> a2;
 			fs_seek(fp,F,a1,a2);
 		}
 		else if(command=="cat") {
-			cout << "cat" << endl;
+			//cout << "cat" << endl;
 			iss >> arg1;
 			fs_cat(fp,F,arg1.c_str());
 		}
@@ -142,12 +142,12 @@ int main(int argc, char *argv[]) {
 			fs_tree(fp,F,0);
 		}
 		else if(command=="export") {
-			cout << "export" << endl;
+			//cout << "export" << endl;
 			iss >> arg1 >> arg2;
 			fs_export(fp,F,arg1.c_str(),arg2.c_str());
 		}
 		else if(command=="import") {
-			cout << "import" << endl;
+			//cout << "import" << endl;
 			iss >> arg1 >> arg2;
 			fs_import(fp,F,arg1.c_str(),arg2.c_str());
 		}

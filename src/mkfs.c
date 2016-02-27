@@ -51,17 +51,17 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   for(j=0;j<DISK_SIZE;j++) {
     fputc('a',fp);
   }
-  printf("seek to %ld\n",ftell(fp));
+  //printf("seek to %ld\n",ftell(fp));
   rewind(fp);
-  printf("seek to %ld\n",ftell(fp));
+  //printf("seek to %ld\n",ftell(fp));
 
   dir.inodes[0]=0;
   dir.inodes[1]=0;
   strcpy(dir.files[0],".");
   strcpy(dir.files[1],"..");
 
-  printf("%s\n",dir.files[0]);
-  printf("%s\n",dir.files[1]);
+  //printf("%s\n",dir.files[0]);
+  //printf("%s\n",dir.files[1]);
 
   for(j=2;j<MAX_SIZE_DIRECTORY;j++) {
     dir.files[j][0]='\0';
@@ -69,19 +69,19 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
 
   //write dir to F->inode_list[0]->direct[0]
   fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
-  printf("seek to %ld\n",ftell(fp));
+  //printf("seek to %ld\n",ftell(fp));
   fwrite(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
-  printf("seek to %ld\n",ftell(fp));
+  //printf("seek to %ld\n",ftell(fp));
 
   //something wrong with readin
   fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
-  printf("seek to %ld\n",ftell(fp));
-  printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
+  //printf("seek to %ld\n",ftell(fp));
+  //printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
   rewind(fp);
-  printf("seek to %ld\n",ftell(fp));
-  printf("%s\n",dir.files[0]);
-  printf("%s\n",dir.files[1]);
+  //printf("seek to %ld\n",ftell(fp));
+  //printf("%s\n",dir.files[0]);
+  //printf("%s\n",dir.files[1]);
 
   return;
 }

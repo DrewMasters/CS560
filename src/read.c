@@ -17,14 +17,14 @@ extern "C" char *fs_read(FILE * fp, struct file_system *F, int file_d, int size)
 	int direct_index=F->fd[file_d].in_offset/PAGE_SIZE;
 
   idx=0;
-  printf("reading in\n");
+  //printf("reading in\n");
 
 	/*if (F->fd[file_d].type != 0){
 		printf("Trying to read from write inode\n");
 		return "\0";
 	} else */
   if (F->fd[file_d].i->size==F->fd[file_d].in_offset){
-		printf("Trying to read from file descriptor at end of file\n");
+		//printf("Trying to read from file descriptor at end of file\n");
 		return "\0";
 	}
 
@@ -32,13 +32,13 @@ extern "C" char *fs_read(FILE * fp, struct file_system *F, int file_d, int size)
   while (idx < size){
     page_remaining = PAGE_SIZE - (F->fd[file_d].in_offset % PAGE_SIZE);
     for (i=0; i<page_remaining; i++){
-      printf("in_offset=%d,size=%d\n",F->fd[file_d].in_offset,F->fd[file_d].i->size);
+      //printf("in_offset=%d,size=%d\n",F->fd[file_d].in_offset,F->fd[file_d].i->size);
       if( ( (F->fd[file_d].in_offset) >= F->fd[file_d].i->size) || (idx==size) ) {
         rt[idx]='\0';
         return rt;
       }
       fread(&(rt[idx]), 1, 1, fp);
-      printf("%c\n",rt[idx]);
+      //printf("%c\n",rt[idx]);
       idx++;
       F->fd[file_d].in_offset++;
       F->fd[file_d].out_offset++;

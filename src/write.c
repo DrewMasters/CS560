@@ -31,7 +31,7 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
     for (i=0; i<page_remaining; i++){
       if(w_string[total_written]=='\0') break;
       fwrite(&(w_string[total_written]), 1, 1, fp);
-      printf("%c\n",w_string[total_written]);
+      //printf("%c\n",w_string[total_written]);
       total_written++;
       F->fd[file_d].i->size++;
       F->fd[file_d].in_offset++;

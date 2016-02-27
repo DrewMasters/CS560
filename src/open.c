@@ -23,7 +23,7 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
  
   fd_num=get_fd(F);
   if(fd_num==-1) return -1;
-  printf("got file descriptor %d\n",fd_num);
+  //printf("got file descriptor %d\n",fd_num);
 
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
     r=strcmp(filename,dir.files[i]);
@@ -55,11 +55,11 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
       F->fd[fd_num].in_offset=0;
       
       inode_num = get_inode(F);
-      printf("trying inode %d\n",inode_num);
+      //printf("trying inode %d\n",inode_num);
       F->inode_list[inode_num].in_use=1;
       F->inode_list[inode_num].file_type=0;
       tmp=find_first_free_page(F);
-      printf("tmp: %d\n",tmp);
+      //printf("tmp: %d\n",tmp);
       F->inode_list[inode_num].direct[0] = tmp;//find_first_free_page(F);
       F->inode_list[inode_num].size=0; 
 
@@ -67,7 +67,7 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
         if('\0'==dir.files[i][0]) {
            strcpy(dir.files[i],filename);
            dir.inodes[i]=inode_num;
-           printf("dir.inodes[%d]=%d\nfilename=%s\n",i,dir.inodes[i],filename);      
+           //printf("dir.inodes[%d]=%d\nfilename=%s\n",i,dir.inodes[i],filename);      
            break;
         }
       }      
