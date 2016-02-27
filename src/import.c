@@ -18,7 +18,7 @@ extern "C" void fs_import(FILE * fp, struct file_system * F, const char *srcname
   int fd = fs_open(fp,F,destname,&flag);
   while((c[0] = getc(import_file)) != EOF) {
     fs_write(fp,F,fd,c);
-    printf("%s\n",c);
+    //printf("%s\n",c);
   }
   fs_close(fp,F,fd);
   fclose(import_file);
