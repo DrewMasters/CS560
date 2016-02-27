@@ -25,18 +25,18 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
   }   
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
     if('\0'==dir.files[i][0]) {
-      printf("empty spot at %d\n",i);
+      //printf("empty spot at %d\n",i);
       inode_num = get_inode(F);
-      printf("trying inode %d\n",inode_num);
+      //printf("trying inode %d\n",inode_num);
       F->inode_list[inode_num].in_use=1;
       F->inode_list[inode_num].file_type=1;
       tmp=find_first_free_page(F);
-      printf("tmp: %d\n",tmp);
+      //printf("tmp: %d\n",tmp);
       F->inode_list[inode_num].direct[0] = tmp;//find_first_free_page(F);
       F->inode_list[inode_num].size=sizeof(struct directory); 
       strcpy(dir.files[i],dirname);
       dir.inodes[i]=inode_num;
-      printf("dir.inodes[%d]=%d\n",i,dir.inodes[i]);
+      //printf("dir.inodes[%d]=%d\n",i,dir.inodes[i]);
       break;
     }
   }
@@ -51,7 +51,7 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
   }
 
 
-  printf("seek to %lu\n",F->inode_list[F->cur_idx].direct[0]);
+  //printf("seek to %lu\n",F->inode_list[F->cur_idx].direct[0]);
   fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   fwrite(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
@@ -60,7 +60,7 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
   
   //fs_ls(fp,F);
   
-  printf("seek to %lu\ngetting %lu",F->inode_list[inode_num].direct[0],sizeof(struct directory));
+  //printf("seek to %lu\ngetting %lu",F->inode_list[inode_num].direct[0],sizeof(struct directory));
   fseek(fp, F->inode_list[inode_num].direct[0], SEEK_SET);
   fwrite(&dir2, sizeof(struct directory), 1, fp);
   rewind(fp);

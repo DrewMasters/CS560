@@ -41,7 +41,7 @@ int find_first_free_page(struct file_system *fs)
   //should we just move the set_page_used function in here?
   //fs->free_list[pos]|=(1<<(7-j)); //set page as being used
   
-  printf("pos: %d\nj: %d\npage location: %d\n",pos,j,(int)sizeof(struct file_system)+(PAGE_SIZE*(pos*8+j)));
+  //printf("pos: %d\nj: %d\npage location: %d\n",pos,j,(int)sizeof(struct file_system)+(PAGE_SIZE*(pos*8+j)));
   return (int)sizeof(struct file_system) + (PAGE_SIZE*(pos*8+j)); //first free page number 
 }
 
@@ -49,7 +49,7 @@ void set_page_used(struct file_system *fs, long num) {
 // and with ~1
   int div_eight=num/8;
   int mod_eight=num%8;
-  printf("num: %ld\ndiv_eight: %ld\nmod_eight: %ld\n",num,div_eight,mod_eight);
+ // printf("num: %ld\ndiv_eight: %ld\nmod_eight: %ld\n",num,div_eight,mod_eight);
   fs->free_list[div_eight]|=(1<<(7-mod_eight));
 }
 
