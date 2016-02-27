@@ -19,7 +19,6 @@ extern "C" void fs_tree(FILE * fp, struct file_system * F, int tl){
 			printf("%d %s\n",tl,dir.files[i]);
 			for (j=0; j<tl; j) printf("  ");  
 			if (F->inode_list[dir.inodes[i]].file_type == 0 || strcmp(".", dir.files[i])==0 || strcmp("..",dir.files[i])==0){
-				printf("%s %d\n",dir.files[i],F->inode_list[dir.inodes[i]].size);
 				if (strcmp(".",dir.files[i])==0|| strcmp("..",dir.files[i])==0) printf("%s\n",dir.files[i]);
 				else printf("%s %d\n",dir.files[i],F->inode_list[dir.inodes[i]].size);
 			} else{
@@ -27,7 +26,6 @@ extern "C" void fs_tree(FILE * fp, struct file_system * F, int tl){
 					fs_cd(F, fp, dir.files[i]);
 					fs_tree(fp, F, tl+1);
 					fs_cd(F, fp, "..");
-					return;
 			}
 		}
 	}
