@@ -138,7 +138,18 @@ int main(int argc, char *argv[]) {
 			iss >> arg1;
 			fs_cat(fp,F,arg1.c_str());
 		}
+		else if(command=="export") {
+			cout << "export" << endl;
+			iss >> arg1 >> arg2;
+			fs_export(fp,F,arg1.c_str(),arg2.c_str());
+		}
+		else if(command=="import") {
+			cout << "import" << endl;
+			iss >> arg1 >> arg2;
+			fs_import(fp,F,arg1.c_str(),arg2.c_str());
+		}
 		else if(command=="exit") {
+      fs_exit(fp,F);
 			break;
 		}
 		else {

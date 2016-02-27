@@ -10,5 +10,5 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname);
 extern "C" void fs_ls(FILE * fp, struct file_system * F);
 extern "C" void fs_cat(FILE * fp, struct file_system * F, const char *filename);
 extern "C" void fs_tree();
-extern "C" void fs_import();
-extern "C" void fs_export();
+extern "C" void fs_import(FILE * fp, struct file_system * F, const char *srcname, const char *destname);
+extern "C" void fs_export(FILE * fp, struct file_system * F, const char *srcname, const char *destname);

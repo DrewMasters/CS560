@@ -51,3 +51,4 @@ struct file_system connect_fs(char *file_name);
 int get_inode(struct file_system * F);
 int get_fd(struct file_system * F);
 void free_fd(struct file_system * F,int fd);
+extern "C" void fs_exit(FILE * fp, struct file_system * F);

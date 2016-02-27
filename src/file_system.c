@@ -78,3 +78,10 @@ int get_fd(struct file_system * F) {
 void free_fd(struct file_system * F,int i) {
   F->fd[i].in_use = 0;
 }
+
+extern "C" void fs_exit(FILE * fp, struct file_system * F) {
+  fseek(fp, 0, SEEK_SET);
+  fwrite(F, sizeof(struct file_system), 1, fp);
+  rewind(fp);
+}
+
