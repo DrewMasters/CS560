@@ -19,12 +19,6 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   int j;
   long pos;
  
-  //inode in filesystem
-  //i = (struct inode*)malloc(sizeof(struct inode));
-  //strcpy(F->inode_list[0]->file_name,"root");
-
-  //free(F);
-  //F = (struct file_system*)malloc(sizeof(struct file_system));
   for(j=0;j<NUM_INODES;j++) {
     F->inode_list[j].in_use=0;
   }
@@ -75,13 +69,13 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   //printf("seek to %ld\n",ftell(fp));
 
   //something wrong with readin
-  fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
+  ///fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
   //printf("seek to %ld\n",ftell(fp));
-  printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
-  rewind(fp);
+  //printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
+  //rewind(fp);
   //printf("seek to %ld\n",ftell(fp));
-  printf("%s\n",dir.files[0]);
-  printf("%s\n",dir.files[1]);
+  //printf("%s\n",dir.files[0]);
+  //printf("%s\n",dir.files[1]);
 
   return;
 }
