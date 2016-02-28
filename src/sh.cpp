@@ -1,8 +1,8 @@
 /******************
   CS 560- PA #1
   Basic shell
-  By: Joe Dorris
-      Drew Masters
+By: Joe Dorris
+Drew Masters
  *****************/
 
 #include <iostream>
@@ -21,16 +21,16 @@ using namespace std;
 int main(int argc, char *argv[]) {
 	string prompt = "sh: ";
 	struct file_system * F;
-  int save; 
+	int save; 
 	string temp;
 	string command;
 	string arg1,arg2;
 	string fs_fname;
 	FILE * fp;
 	int a1,a2;
-  int ret_fd;
-  char temp_str[100];
-  char * c;
+	int ret_fd;
+	char temp_str[100];
+	char * c;
 
 	if(argc>2) exit(1);
 	else if(argc==2) fs_fname = argv[1];
@@ -90,57 +90,58 @@ int main(int argc, char *argv[]) {
 			//need to get second word
 			//cout << "got a mkdir" << endl;
 			iss >> arg1;
-      save = F->cur_idx;
-      strcpy(temp_str,arg1.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
-      
+			save = F->cur_idx;
+			strcpy(temp_str,arg1.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
+
 			fs_mkdir(fp,F,c);
-      F->cur_idx = save;
+			F->cur_idx = save;
 		}
 		else if(command == "ls") {
+		    printf("got an ls\n");
 			fs_ls(fp,F);
 		}
 		else if(command=="rmdir") {
 			//cout << "got a rmdir" << endl;
 			iss >> arg1;
-      save = F->cur_idx;
-      strcpy(temp_str,arg1.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
+			save = F->cur_idx;
+			strcpy(temp_str,arg1.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
 			fs_rmdir(fp,F,c);
-      F->cur_idx = save;
+			F->cur_idx = save;
 		}
 		else if(command=="open") {
 			//cout << "open" << endl;
 			iss >> arg1 >> arg2;
-      save = F->cur_idx;
-      strcpy(temp_str,arg1.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
-      ret_fd = fs_open(fp,F,c,arg2.c_str());
-      if( -1 != ret_fd ) {
-        cout << "SUCCESS,fd=" << ret_fd  << endl;
-      }
-      else {
-        cout << "error, no fd available" << endl;
-      }
-      F->cur_idx = save;
+			save = F->cur_idx;
+			strcpy(temp_str,arg1.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
+			ret_fd = fs_open(fp,F,c,arg2.c_str());
+			if( -1 != ret_fd ) {
+				cout << "SUCCESS,fd=" << ret_fd  << endl;
+			}
+			else {
+				cout << "error, no fd available" << endl;
+			}
+			F->cur_idx = save;
 		}
 		else if(command=="close") {
 			//cout << "close" << endl;
@@ -153,15 +154,15 @@ int main(int argc, char *argv[]) {
 			cout << fs_read(fp,F,a1,a2) << endl;
 		}
 		else if(command=="write") {
-      string temp_str;
+			string temp_str;
 			//cout << "write" << endl;
 			iss >> a1 >> arg1;
-      while( iss >> temp_str ) {
-        arg1 += " " + temp_str;
-      }
-      //cout << arg1 << endl;
-      arg1.erase(remove(arg1.begin(), arg1.end(), '"'), arg1.end());
-      //cout << arg1 << endl;
+			while( iss >> temp_str ) {
+				arg1 += " " + temp_str;
+			}
+			//cout << arg1 << endl;
+			arg1.erase(remove(arg1.begin(), arg1.end(), '"'), arg1.end());
+			//cout << arg1 << endl;
 			fs_write(fp,F,a1,arg1.c_str());
 		}
 		else if(command=="seek") {
@@ -172,17 +173,17 @@ int main(int argc, char *argv[]) {
 		else if(command=="cat") {
 			//cout << "cat" << endl;
 			iss >> arg1;
-      save = F->cur_idx;
-      strcpy(temp_str,arg1.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
+			save = F->cur_idx;
+			strcpy(temp_str,arg1.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
 			fs_cat(fp,F,c);
-      F->cur_idx = save;
+			F->cur_idx = save;
 		}
 		else if (command=="tree"){
 			fs_tree(fp,F,0);
@@ -190,35 +191,35 @@ int main(int argc, char *argv[]) {
 		else if(command=="export") {
 			//cout << "export" << endl;
 			iss >> arg1 >> arg2;
-      save = F->cur_idx;
-      strcpy(temp_str,arg1.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
+			save = F->cur_idx;
+			strcpy(temp_str,arg1.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
 			fs_export(fp,F,c,arg2.c_str());
-      F->cur_idx = save;
+			F->cur_idx = save;
 		}
 		else if(command=="import") {
 			//cout << "import" << endl;
 			iss >> arg1 >> arg2;
-      save = F->cur_idx;
-      strcpy(temp_str,arg2.c_str());
-      c = strrchr(temp_str,'/');
-      if(c != NULL) {
-        *c = '\0';
-        fs_cd(F,fp,temp_str);
-        c++;
-      }
-      else c = temp_str;
+			save = F->cur_idx;
+			strcpy(temp_str,arg2.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
 			fs_import(fp,F,arg1.c_str(),c);
-      F->cur_idx = save;
+			F->cur_idx = save;
 		}
 		else if(command=="exit") {
-      fs_exit(fp,F);
+			fs_exit(fp,F);
 			break;
 		}
 		else {

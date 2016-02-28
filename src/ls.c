@@ -9,6 +9,8 @@ extern "C" void fs_ls(FILE * fp, struct file_system * F){
   //change current working directory to dirname
   int i;
   struct directory dir;
+  printf("printing for idx=%d\n",F->cur_idx);
+  fflush(stdout);
   fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   fread(&dir, 1, sizeof(struct directory), fp);
   rewind(fp);
