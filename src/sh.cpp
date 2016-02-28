@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
+#include <string.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -142,8 +144,8 @@ int main(int argc, char *argv[]) {
 		}
 		else if(command=="close") {
 			//cout << "close" << endl;
-			iss >> arg1;
-			fs_close(fp,F,stoi(arg1));
+			iss >> a1;
+			fs_close(fp,F,a1);
 		}
 		else if(command=="read") {
 			//cout << "read" << endl;
@@ -158,7 +160,7 @@ int main(int argc, char *argv[]) {
         arg1 += " " + temp_str;
       }
       //cout << arg1 << endl;
-      arg1.erase(std::remove(arg1.begin(), arg1.end(), '"'), arg1.end());
+      arg1.erase(remove(arg1.begin(), arg1.end(), '"'), arg1.end());
       //cout << arg1 << endl;
 			fs_write(fp,F,a1,arg1.c_str());
 		}

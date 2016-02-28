@@ -4,12 +4,16 @@
 #include "commands.h"
 #include <unistd.h>
 
-extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname){
+extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname_const){
   //change current working directory to dirname
   int i;
   int flag = 1;
   struct directory dir;
   char * next;
+  char * dirname;
+
+  dirname = strdup(dirname_const);
+
   if(dirname[0]=='/') {
     F->cur_idx = F->root_idx;
     dirname = &dirname[1];
