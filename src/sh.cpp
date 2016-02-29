@@ -32,12 +32,15 @@ int main(int argc, char *argv[]) {
 	char temp_str[100];
 	char * c;
 
+	//set name for file system storage file
 	if(argc>2) exit(1);
 	else if(argc==2) fs_fname = argv[1];
 	else fs_fname = "disk.disk";
 
+	//allocate memory for file system
 	F = (struct file_system*)malloc(sizeof(struct file_system));
 
+	//open the file system file or create it
 	if( access( fs_fname.c_str(), F_OK ) == 0 ) {
 		fp = fopen(fs_fname.c_str(), "rb+");
 	}
@@ -45,7 +48,8 @@ int main(int argc, char *argv[]) {
 		fp = fopen(fs_fname.c_str(), "wb+");
 	}
 	rewind(fp);
-	printf("fp=%p\n",fp);
+	//printf("fp=%p\n",fp);
+	//Try to read in the file system struct 
 	if(fp != NULL) {
 		//open it and read in if exists
 		// file exists
@@ -70,29 +74,33 @@ int main(int argc, char *argv[]) {
 	}
 
 
+	/********************************************************
+	 * Print prompt until exit.
+	 *******************************************************/
 	cout << prompt;
 	while(1) {
+		//Get input from user after prompt
 		getline(cin,temp);
 		istringstream iss(temp);
 		iss >> command;
-		//NEED TO RESET ARGS
+	    /********************************************************
+	    * Check the command and do the specified action.
+	    *******************************************************/
 		if(command=="mkfs") {
-			//cout << "making file system" << endl;
-			//clear file
-			//free file_system struct
+			//Make new file system
 			fs_mkfs(fp, F);
 		}
 		else if(command == "cd") {
-			//need to get second word
-			//cout << "got a cd" << endl;
+			//Get location to cd to and call fs_cd
 			iss >> arg1;
 			fs_cd(F,fp,arg1.c_str());
 		}
 		else if(command == "mkdir") {
-			//need to get second word
-			//cout << "got a mkdir" << endl;
+			//Get directory name
 			iss >> arg1;
+			//Save current directory location
 			save = F->cur_idx;
+			//cd to folder where want to make directory
 			strcpy(temp_str,arg1.c_str());
 			c = strrchr(temp_str,'/');
 			if(c != NULL) {
@@ -102,16 +110,18 @@ int main(int argc, char *argv[]) {
 			}
 			else c = temp_str;
 
+			//Make directory
 			fs_mkdir(fp,F,c);
+			//Return to cur directory
 			F->cur_idx = save;
 		}
 		else if(command == "ls") {
-			printf("got an ls\n");
+			//list files in current directory
 			fs_ls(fp,F);
 		}
 		else if(command=="rmdir") {
-			//cout << "got a rmdir" << endl;
 			iss >> arg1;
+			//Go to directory to remove.
 			save = F->cur_idx;
 			strcpy(temp_str,arg1.c_str());
 			c = strrchr(temp_str,'/');
@@ -121,11 +131,11 @@ int main(int argc, char *argv[]) {
 				c++;
 			}
 			else c = temp_str;
+			//Remove directory.
 			fs_rmdir(fp,F,c);
 			F->cur_idx = save;
 		}
 		else if(command=="open") {
-			//cout << "open" << endl;
 			iss >> arg1 >> arg2;
 			save = F->cur_idx;
 			strcpy(temp_str,arg1.c_str());
@@ -136,6 +146,7 @@ int main(int argc, char *argv[]) {
 				c++;
 			}
 			else c = temp_str;
+			//open file
 			ret_fd = fs_open(fp,F,c,arg2.c_str());
 			if( -1 != ret_fd ) {
 				cout << "SUCCESS,fd=" << ret_fd  << endl;
@@ -146,25 +157,25 @@ int main(int argc, char *argv[]) {
 			F->cur_idx = save;
 		}
 		else if(command=="close") {
-			//cout << "close" << endl;
+			//close file descriptor
 			iss >> a1;
 			fs_close(fp,F,a1);
 		}
 		else if(command=="read") {
-			//cout << "read" << endl;
+			//read from file descirptor
 			iss >> a1 >> a2;
 			cout << fs_read(fp,F,a1,a2) << endl;
 		}
 		else if(command=="write") {
 			string temp_str;
-			//cout << "write" << endl;
+			//read in all arguments after file descriptor
 			iss >> a1 >> arg1;
 			while( iss >> temp_str ) {
 				arg1 += " " + temp_str;
 			}
-			//cout << arg1 << endl;
+			//remove quotes
 			arg1.erase(remove(arg1.begin(), arg1.end(), '"'), arg1.end());
-			//cout << arg1 << endl;
+			//write to file descriptor
 			fs_write(fp,F,a1,arg1.c_str(),strlen(arg1.c_str()));
 		}
 		else if(command=="seek") {

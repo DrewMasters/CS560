@@ -29,7 +29,7 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 	flag = 1;
 	for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
 		if(0==strcmp(filename,dir.files[i])) {
-			printf("%s\n",filename);
+			//printf("%s\n",filename);
 			if( 1 ) { //F->inode_list[dir.inodes[i]].file_type == 2 ) {
 				//read in size of file
 				flag = 0;
