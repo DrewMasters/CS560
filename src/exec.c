@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filename) {
 
@@ -14,6 +15,7 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 	int r;
 	int i;
 	int flag;
+	//char mode[] = "0777";
 
 	fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
 	fread(&dir, 1, sizeof(struct directory), fp);
@@ -42,6 +44,7 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 				//write memory to it
 				fwrite(buffer,F->fd[fd].i->size,1,exec_file);
 				fclose(exec_file);
+				chmod("exec_temp",0777);
 
 				//fork 
 				pid_t parent = getpid();
