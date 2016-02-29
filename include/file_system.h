@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX_FILE_NAME_LEN 100
+#define MAX_FILE_NAME_LEN 101
 #define MAX_SIZE_DIRECTORY 90
 #define NUM_DIRECT_LINKS 12
 #define NUM_INODES 1000 

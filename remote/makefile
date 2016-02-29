@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -g
 
-EXECUTABLES = server client
+EXECUTABLES = server
 
 all: $(EXECUTABLES)
 
@@ -14,9 +14,6 @@ all: $(EXECUTABLES)
 
 server: server.o sockettome.o
 	$(CC) $(CFLAGS) -o server server.o sockettome.o
-
-client: client.o sockettome.o
-	$(CC) $(CFLAGS) -o client client.o sockettome.o
 
 #make clean will rid your directory of the executable,
 #object files, and any core dumps you've caused

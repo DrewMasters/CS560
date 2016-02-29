@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if [ $# -eq 2 ] ; then
-	ncat $(host $1 | rev | cut -d' ' -f1 | rev) $2
-else
-	ncat 127.0.0.1 $1
-fi

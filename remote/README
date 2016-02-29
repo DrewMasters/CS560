@@ -1,0 +1,10 @@
+make with 
+	make
+
+start server on one machine with
+	./server [port]
+
+connect to it with
+	./client.sh [hostname] [port]
+
+This will start a remote shell and the client will be able to control the operations and receive the output.

@@ -1,3 +1,11 @@
-# CS560
-repo for CS560 project
-Unix-like shell and file system
+File system
+By: Joe Dorris
+    Drew Masters
+
+built on hydra
+
+compile with
+	make
+
+start file system with
+	./bin/sh [optional-filename]

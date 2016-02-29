@@ -29,8 +29,14 @@ extern "C" void fs_mkdir(FILE * fp, struct file_system * F, const char *dirname)
     if(0==strcmp(dirname,dir.files[i])) {
       //file exists so nothing to be done 
       printf("File already exists\n");
+	  return;
     }   
   }   
+  
+  if(strlen(dirname)>MAX_FILE_NAME_LEN) {
+	  printf("Filename is too long\n");
+	  return;
+  }
 
   //search for open place in directory structure
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
