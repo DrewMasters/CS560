@@ -5,6 +5,6 @@
 
 extern "C" void fs_close(FILE * fp, struct file_system * F, int fd){
   //close file_descriptor
-  free_fd(F,fd);
+  if(fd>=0) free_fd(F,fd);
   return;
 }

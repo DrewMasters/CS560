@@ -17,13 +17,15 @@ def send_receive(sock):
 	sock.send('done')
 	return
 	
-s = socket.socket()
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 if len(sys.argv) == 1:
 	host = socket.gethostname()
 else:
 	host = str(sys.argv[1])
 port = 12345
 s.connect((host,port))
-print s.recv(1024)
+while 1:
+	print s.recv(1024)
+	s.send(sys.stdin)
 send_receive(s)
 s.close()

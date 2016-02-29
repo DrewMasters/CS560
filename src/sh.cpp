@@ -38,29 +38,30 @@ int main(int argc, char *argv[]) {
 
 	F = (struct file_system*)malloc(sizeof(struct file_system));
 
-	fp = fopen(fs_fname.c_str(), "ab+");
+	if( access( fs_fname.c_str(), F_OK ) == 0 ) {
+		fp = fopen(fs_fname.c_str(), "rb+");
+	}
+	else {
+		fp = fopen(fs_fname.c_str(), "wb+");
+	}
 	rewind(fp);
 	printf("fp=%p\n",fp);
 	if(fp != NULL) {
 		//open it and read in if exists
-		if( access( fs_fname.c_str(), F_OK ) == 0 ) {
-			// file exists
-			// read it into F
-			int bytes_read = fread(F, 1, sizeof(struct file_system), fp);
-			printf("read in %d bytes\n", bytes_read);
-			if( sizeof(struct file_system) != bytes_read) {
-				printf("Could not read it in\n");
-				free(F);
-				F = (struct file_system*)malloc(sizeof(struct file_system));
-				fclose(fp);
-				fp = fopen(fs_fname.c_str(), "wb+");
-			}
-			else {
-				F->root_idx = 0;
-				F->cur_idx = 0;
-			}
-		} else {
-			printf("Could not access\n");
+		// file exists
+		// read it into F
+		int bytes_read = fread(F, 1, sizeof(struct file_system), fp);
+		printf("read in %d bytes\n", bytes_read);
+		if( sizeof(struct file_system) != bytes_read) {
+			printf("Could not read it in\n");
+			free(F);
+			F = (struct file_system*)malloc(sizeof(struct file_system));
+			fclose(fp);
+			fp = fopen(fs_fname.c_str(), "wb+");
+		}
+		else {
+			F->root_idx = 0;
+			F->cur_idx = 0;
 		}
 		rewind(fp);
 	} else {
@@ -105,7 +106,7 @@ int main(int argc, char *argv[]) {
 			F->cur_idx = save;
 		}
 		else if(command == "ls") {
-		    printf("got an ls\n");
+			printf("got an ls\n");
 			fs_ls(fp,F);
 		}
 		else if(command=="rmdir") {
