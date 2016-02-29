@@ -15,13 +15,14 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 	int r;
 	int i;
 	int flag;
+	//struct stat info;
 	//char mode[] = "0777";
 
 	fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
 	fread(&dir, 1, sizeof(struct directory), fp);
 	rewind(fp);
 
-    printf("read in the directory\n");
+    //printf("read in the directory\n");
 
 	char * buffer;
 
@@ -33,12 +34,12 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 				//read in size of file
 				flag = 0;
 				fd = fs_open(fp,F,filename,"r");
-				printf("size=%d\n",F->fd[fd].i->size);
-				fflush(stdout);
+				//printf("size=%d\n",F->fd[fd].i->size);
+				//fflush(stdout);
 				buffer = (char *)malloc(F->fd[fd].i->size);
 				buffer = fs_read(fp,F,fd,F->fd[fd].i->size);
-				printf("read into buffer\n");
-				fflush(stdout);
+				//printf("read into buffer\n");
+				//fflush(stdout);
 				//open new file for executing
 				exec_file = fopen("exec_temp","wb");
 				//write memory to it
@@ -56,12 +57,15 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 				} 
 				else if (pid > 0)
 				{
+					//printf("parent\n");
 					int status;
 					waitpid(pid, &status, 0);
+					unlink("exec_temp");
 				}
 				else 
 				{
 					// we are the child
+					//printf("child\n");
 					execve("./exec_temp",NULL,NULL);
 					//_exit(EXIT_FAILURE);   // exec never returns
 				}
@@ -72,5 +76,5 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 
 		}
 	}
-	if(flag) printf("Unrecognized command\n");
+	if(flag) printf("-sh: %s: command not found\n",filename);
 }

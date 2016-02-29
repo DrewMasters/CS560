@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
 			//cout << arg1 << endl;
 			arg1.erase(remove(arg1.begin(), arg1.end(), '"'), arg1.end());
 			//cout << arg1 << endl;
-			fs_write(fp,F,a1,arg1.c_str());
+			fs_write(fp,F,a1,arg1.c_str(),strlen(arg1.c_str()));
 		}
 		else if(command=="seek") {
 			//cout << "seek" << endl;
@@ -223,8 +223,17 @@ int main(int argc, char *argv[]) {
 			break;
 		}
 		else {
-			fs_try_exec(fp,F, command.c_str());
-			cout << "Unrecognized" << endl;
+			save = F->cur_idx;
+			strcpy(temp_str,command.c_str());
+			c = strrchr(temp_str,'/');
+			if(c != NULL) {
+				*c = '\0';
+				fs_cd(F,fp,temp_str);
+				c++;
+			}
+			else c = temp_str;
+			fs_try_exec(fp,F, c);
+			F->cur_idx = save;
 		}
 		cout << prompt;
 	}

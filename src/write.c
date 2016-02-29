@@ -4,15 +4,15 @@
 #include "commands.h"
 #include <unistd.h>
 
-extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const char * w_string){
+extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const char * w_string, int size){
   //wrtie string into file associated with file_descriptor
   //from current file offset.  current file offset moves forward
   //by the size of the string after write.  if end of file reached
   //size of file is increased
   
-  int size, i, total_written;
+  int i, total_written;
   int page_remaining; 
-  size=strlen(w_string);
+  //size=strlen(w_string);
   total_written=0;
 
   if (F->fd[file_d].type !=1){
@@ -28,27 +28,31 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
   fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
   while (total_written < size){
     page_remaining = PAGE_SIZE - (F->fd[file_d].in_offset % PAGE_SIZE);
-    for (i=0; i<page_remaining; i++){
-      if(w_string[total_written]=='\0') break;
-      fwrite(&(w_string[total_written]), 1, 1, fp);
-      //printf("%c\n",w_string[total_written]);
-      total_written++;
-      F->fd[file_d].i->size++;
-      F->fd[file_d].in_offset++;
-      F->fd[file_d].out_offset++;
-    }
-    if( total_written < size ) {  
-      //allocate new page
-      if ((F->fd[file_d].in_offset/PAGE_SIZE) < NUM_DIRECT_LINKS){
-        F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)]=find_first_free_page(F);
-        F->fd[file_d].out_offset = F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)] + F->fd[file_d].in_offset % PAGE_SIZE;
-        fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
-      }
-      else {
-        printf("Only able to write %d bytes\n", total_written);
-        if(F->fd[file_d].in_offset > F->fd[file_d].i->size) F->fd[file_d].i->size = F->fd[file_d].in_offset;
-	      return;
-      }
+    if( size <= page_remaining ) {
+		fwrite(&(w_string[total_written]), size, 1, fp);
+        total_written+=size;
+		F->fd[file_d].i->size+=size;
+		F->fd[file_d].in_offset+=size;
+		F->fd[file_d].out_offset+=size;
+	}
+	else {
+		fwrite(&(w_string[total_written]), page_remaining, 1, fp);
+		total_written+=page_remaining;
+		F->fd[file_d].i->size+=page_remaining;
+		F->fd[file_d].in_offset+=page_remaining;
+		F->fd[file_d].out_offset+=page_remaining;;
+        
+		//allocate new page
+        if ((F->fd[file_d].in_offset/PAGE_SIZE) < NUM_DIRECT_LINKS){
+			F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)]=find_first_free_page(F);
+			F->fd[file_d].out_offset = F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)] + F->fd[file_d].in_offset % PAGE_SIZE;
+			fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
+		}
+		else {
+			printf("Only able to write %d bytes\n", total_written);
+			if(F->fd[file_d].in_offset > F->fd[file_d].i->size) F->fd[file_d].i->size = F->fd[file_d].in_offset;
+			return;
+		}
     }
   }
   if(F->fd[file_d].in_offset > F->fd[file_d].i->size) F->fd[file_d].i->size = F->fd[file_d].in_offset;
