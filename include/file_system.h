@@ -17,13 +17,11 @@ struct directory {
 
 struct inode {
   char in_use; //0 is not in use, 1 is in use 
-  //long self;
   char file_type; //0 is regular, 1 is direcotry
   long size;
   long indirect;
   long direct[NUM_DIRECT_LINKS];
   char file_name[MAX_FILE_NAME_LEN];
-  //long pd; //parent directory used to make cd .. easier
 };
 
 struct file_descriptor {
