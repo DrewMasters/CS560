@@ -53,5 +53,4 @@ extern "C" void fs_cd(struct file_system * F, FILE * fp, const char *dirname_con
     }
   }
   if(flag) printf("Directory not found\n");
-  rewind(fp);
 }

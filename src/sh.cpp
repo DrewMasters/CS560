@@ -223,6 +223,7 @@ int main(int argc, char *argv[]) {
 			break;
 		}
 		else {
+			fs_try_exec(fp,F, command.c_str());
 			cout << "Unrecognized" << endl;
 		}
 		cout << prompt;
