@@ -12,3 +12,4 @@ extern "C" void fs_cat(FILE * fp, struct file_system * F, const char *filename);
 extern "C" void fs_tree(FILE * fp, struct file_system * F, int tl);
 extern "C" void fs_import(FILE * fp, struct file_system * F, const char *srcname, const char *destname);
 extern "C" void fs_export(FILE * fp, struct file_system * F, const char *srcname, const char *destname);
+extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filename);
