@@ -38,7 +38,8 @@ int main(int argc, char *argv[]) {
 
 	F = (struct file_system*)malloc(sizeof(struct file_system));
 
-	fp = fopen(fs_fname.c_str(), "rb+");
+	fp = fopen(fs_fname.c_str(), "ab+");
+	rewind(fp);
 	printf("fp=%p\n",fp);
 	if(fp != NULL) {
 		//open it and read in if exists

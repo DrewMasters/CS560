@@ -38,6 +38,7 @@ extern "C" void fs_try_exec(FILE * fp, struct file_system * F, const char *filen
 				//fflush(stdout);
 				buffer = (char *)malloc(F->fd[fd].i->size);
 				buffer = fs_read(fp,F,fd,F->fd[fd].i->size);
+				fs_close(fp,F,fd);
 				//printf("read into buffer\n");
 				//fflush(stdout);
 				//open new file for executing
