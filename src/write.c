@@ -19,6 +19,7 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
   
   int i, total_written;
   int page_remaining; 
+  int total_size=size;
   total_written=0;
 
   if (F->fd[file_d].type !=1){
@@ -32,7 +33,7 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
   }
 
   fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
-  while (total_written < size){
+  while (total_written < total_size){
     page_remaining = PAGE_SIZE - (F->fd[file_d].in_offset % PAGE_SIZE);
     //the size left to be written is less than the page remaining
 	//so all of it can be written to the same page
@@ -50,11 +51,13 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
 		F->fd[file_d].i->size+=page_remaining;
 		F->fd[file_d].in_offset+=page_remaining;
 		F->fd[file_d].out_offset+=page_remaining;;
-        
+        size-=page_remaining;
+
+
 		//allocate new page
         if ((F->fd[file_d].in_offset/PAGE_SIZE) < NUM_DIRECT_LINKS){
 			F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)]=find_first_free_page(F);
-			F->fd[file_d].out_offset = F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)] + F->fd[file_d].in_offset % PAGE_SIZE;
+			F->fd[file_d].out_offset = F->fd[file_d].i->direct[(F->fd[file_d].in_offset/PAGE_SIZE)]; // + F->fd[file_d].in_offset % PAGE_SIZE;
 			fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
 		}
 		else {

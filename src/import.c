@@ -32,6 +32,7 @@ extern "C" void fs_import(FILE * fp, struct file_system * F, const char *srcname
   //write it to the new file
   fs_write(fp,F,fd,content,info.st_size);
   
+  free(content);
   //close file descriptors
   fs_close(fp,F,fd);
   fclose(import_file);

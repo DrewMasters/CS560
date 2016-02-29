@@ -23,10 +23,9 @@ extern "C" void fs_export(FILE * fp, struct file_system * F, const char *srcname
   //open the src file for reading
   int fd = fs_open(fp,F,srcname,&flag);
   //read in the full file and write it to the new file
-  fprintf(export_file, "%s",fs_read(fp,F,fd,F->fd[fd].i->size));
+  fwrite(fs_read(fp,F,fd,F->fd[fd].i->size),F->fd[fd].i->size,1,export_file);
   //close file descriptors
   fs_close(fp,F,fd);
   fclose(export_file);
   return;
-  
 }
