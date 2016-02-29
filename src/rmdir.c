@@ -1,6 +1,6 @@
 /******************
   CS 560- PA #1
-  Basic shell
+  rmdir.c
 By: Joe Dorris
 Drew Masters
  *****************/
