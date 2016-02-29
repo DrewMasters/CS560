@@ -47,7 +47,6 @@ void set_page_free(struct file_system *fs, long num);
 void free_page(struct file_system *fs, long num);
 int find_first_free_page(struct file_system *fs);
 void set_page_used(struct file_system *fs, long num);
-struct file_system connect_fs(char *file_name);
 int get_inode(struct file_system * F);
 int get_fd(struct file_system * F);
 void free_fd(struct file_system * F,int fd);
