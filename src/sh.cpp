@@ -179,12 +179,10 @@ int main(int argc, char *argv[]) {
 			fs_write(fp,F,a1,arg1.c_str(),strlen(arg1.c_str()));
 		}
 		else if(command=="seek") {
-			//cout << "seek" << endl;
 			iss >> a1 >> a2;
 			fs_seek(fp,F,a1,a2);
 		}
 		else if(command=="cat") {
-			//cout << "cat" << endl;
 			iss >> arg1;
 			save = F->cur_idx;
 			strcpy(temp_str,arg1.c_str());
@@ -202,7 +200,6 @@ int main(int argc, char *argv[]) {
 			fs_tree(fp,F,0);
 		}
 		else if(command=="export") {
-			//cout << "export" << endl;
 			iss >> arg1 >> arg2;
 			save = F->cur_idx;
 			strcpy(temp_str,arg1.c_str());
@@ -217,7 +214,6 @@ int main(int argc, char *argv[]) {
 			F->cur_idx = save;
 		}
 		else if(command=="import") {
-			//cout << "import" << endl;
 			iss >> arg1 >> arg2;
 			save = F->cur_idx;
 			strcpy(temp_str,arg2.c_str());

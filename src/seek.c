@@ -1,3 +1,10 @@
+/******************
+  CS 560- PA #1
+  Basic shell
+By: Joe Dorris
+    Drew Masters
+ *****************/
+
 #include <stdlib.h>
 #include <string.h>
 #include "file_system.h"

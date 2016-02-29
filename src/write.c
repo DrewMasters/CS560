@@ -1,3 +1,10 @@
+/******************
+  CS 560- PA #1
+  Basic shell
+By: Joe Dorris
+    Drew Masters
+ *****************/
+
 #include <stdlib.h>
 #include <string.h>
 #include "file_system.h"
@@ -12,7 +19,6 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
   
   int i, total_written;
   int page_remaining; 
-  //size=strlen(w_string);
   total_written=0;
 
   if (F->fd[file_d].type !=1){
@@ -28,7 +34,10 @@ extern "C" void fs_write(FILE * fp, struct file_system * F, int file_d, const ch
   fseek(fp,F->fd[file_d].out_offset, SEEK_SET);
   while (total_written < size){
     page_remaining = PAGE_SIZE - (F->fd[file_d].in_offset % PAGE_SIZE);
-    if( size <= page_remaining ) {
+    //the size left to be written is less than the page remaining
+	//so all of it can be written to the same page
+	//else write what you can to current page and allocate new page so that write can continue
+	if( size <= page_remaining ) {
 		fwrite(&(w_string[total_written]), size, 1, fp);
         total_written+=size;
 		F->fd[file_d].i->size+=size;

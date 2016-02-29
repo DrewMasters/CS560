@@ -1,3 +1,10 @@
+/******************
+  CS 560- PA #1
+  mkfs.c
+  By: Joe Dorris
+  Drew Masters
+ *****************/
+
 #include <stdlib.h>
 #include "file_system.h"
 #include "commands.h"
@@ -14,11 +21,11 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   //6. create root directory
   //7. write root directory to root inode 
   
-  //struct inode *i;
   struct directory dir;
   int j;
   long pos;
- 
+  
+  //initialize inodes, file descriptors, and pages
   for(j=0;j<NUM_INODES;j++) {
     F->inode_list[j].in_use=0;
   }
@@ -30,7 +37,6 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   }
 
   //set up root inode
-  //idx = get_inode;
   F->root_idx = 0;
   F->cur_idx = 0;
   F->inode_list[0].in_use=1;
@@ -45,37 +51,21 @@ void fs_mkfs(FILE * fp, struct file_system * F) {
   for(j=0;j<DISK_SIZE;j++) {
     fputc('a',fp);
   }
-  //printf("seek to %ld\n",ftell(fp));
   rewind(fp);
-  //printf("seek to %ld\n",ftell(fp));
 
+  //create root directory
   dir.inodes[0]=0;
   dir.inodes[1]=0;
   strcpy(dir.files[0],".");
   strcpy(dir.files[1],"..");
-
-  //printf("%s\n",dir.files[0]);
-  //printf("%s\n",dir.files[1]);
-
   for(j=2;j<MAX_SIZE_DIRECTORY;j++) {
     dir.files[j][0]='\0';
   }
 
   //write dir to F->inode_list[0]->direct[0]
   fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
-  //printf("seek to %ld\n",ftell(fp));
   fwrite(&dir, sizeof(struct directory), 1, fp);
   rewind(fp);
-  //printf("seek to %ld\n",ftell(fp));
-
-  //something wrong with readin
-  ///fseek(fp, F->inode_list[0].direct[0], SEEK_SET);
-  //printf("seek to %ld\n",ftell(fp));
-  //printf("read in %lu\n",fread(&dir, 1, sizeof(struct directory), fp));
-  //rewind(fp);
-  //printf("seek to %ld\n",ftell(fp));
-  //printf("%s\n",dir.files[0]);
-  //printf("%s\n",dir.files[1]);
 
   return;
 }

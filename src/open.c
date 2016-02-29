@@ -1,3 +1,10 @@
+/******************
+  CS 560- PA #1
+  open.c
+By: Joe Dorris
+    Drew Masters
+ *****************/
+
 #include <stdlib.h>
 #include <string.h>
 #include "file_system.h"
@@ -16,23 +23,28 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
   int tmp;
 
   flag = 0;
-  
+ 
+  //read in current directory
   fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
   fread(&dir, 1, sizeof(struct directory), fp);
   rewind(fp);
  
+  //find first free file descriptor
   fd_num=get_fd(F);
   if(fd_num==-1) return -1;
-  //printf("got file descriptor %d\n",fd_num);
 
+  //go through files in directory and find file called filename
   for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
     r=strcmp(filename,dir.files[i]);
     if(0==r) {
+      //if found check to see if it is a regular file
       if( F->inode_list[dir.inodes[i]].file_type==0) {
+		//use file descriptor found above to store information about found file
         F->fd[fd_num].in_use=1;
         F->fd[fd_num].in_offset=0;
         F->fd[fd_num].i= &(F->inode_list[dir.inodes[i]]); 
         F->fd[fd_num].out_offset = F->inode_list[dir.inodes[i]].direct[0];
+		//set what mode file descriptor is in
         if(mode[0]=='r') {
           F->fd[fd_num].type=0;
         }
@@ -41,13 +53,15 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
         }
       }
       else {
+		//file is directory so free file descriptor and return
         free_fd(F,fd_num);
         return -1;
       }
     flag=1; 
     }
   }
-
+  
+  //if file not found than create a new file and use file descriptor from above
   if(flag==0) {
     if(mode[0]=='w') {
       F->fd[fd_num].in_use=1;
@@ -55,19 +69,16 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
       F->fd[fd_num].in_offset=0;
       
       inode_num = get_inode(F);
-      //printf("trying inode %d\n",inode_num);
       F->inode_list[inode_num].in_use=1;
       F->inode_list[inode_num].file_type=0;
       tmp=find_first_free_page(F);
-      //printf("tmp: %d\n",tmp);
-      F->inode_list[inode_num].direct[0] = tmp;//find_first_free_page(F);
+      F->inode_list[inode_num].direct[0] = tmp;
       F->inode_list[inode_num].size=0; 
 
       for(i=0;i<MAX_SIZE_DIRECTORY;i++) {
         if('\0'==dir.files[i][0]) {
            strcpy(dir.files[i],filename);
            dir.inodes[i]=inode_num;
-           //printf("dir.inodes[%d]=%d\nfilename=%s\n",i,dir.inodes[i],filename);      
            break;
         }
       }      
@@ -75,6 +86,7 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
       F->fd[fd_num].out_offset=F->inode_list[inode_num].direct[0];
       F->fd[fd_num].i = &F->inode_list[inode_num];
   
+	  //write current inode and directory back to disk
       fseek(fp, F->inode_list[F->cur_idx].direct[0], SEEK_SET);
       fwrite(&dir, sizeof(struct directory), 1, fp);
       rewind(fp);
@@ -91,8 +103,6 @@ extern "C" int fs_open(FILE * fp, struct file_system * F, const char *filename, 
           printf("%s %d\n",dir.files[ix],dirx.inodes[ix]);
         }   
       }
-  
-      //fs_ls(fp,F);
     }
     else {
       free_fd(F,fd_num);
