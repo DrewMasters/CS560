@@ -14,8 +14,9 @@ Drew Masters
 extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname){
 	//remove sub-directory called dirname if it is empty
 	//free inode and directory
-	int i;
+	int i,j;
 	int flag=1;
+	int flag2=1;
 	struct directory dir, dir2;
 
 	fseek(fp,F->inode_list[F->cur_idx].direct[0], SEEK_SET);
@@ -37,7 +38,12 @@ extern "C" void fs_rmdir(FILE * fp, struct file_system * F, const char *dirname)
 				fseek(fp,F->inode_list[dir.inodes[i]].direct[0], SEEK_SET);
 				fread(&dir2, 1, sizeof(struct directory), fp);
 				rewind(fp);
-				if( dir2.files[2][0]=='\0' ){
+				for(j=2;j<MAX_SIZE_DIRECTORY;j++) {
+					if( dir2.files[i][0]!='\0' ){
+						flag2=0;
+					}
+				}
+				if(flag2) {
 					//free page
 					free_page(F, F->inode_list[dir.inodes[i]].direct[0]);
 					//set inode as not in use

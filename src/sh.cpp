@@ -48,16 +48,13 @@ int main(int argc, char *argv[]) {
 		fp = fopen(fs_fname.c_str(), "wb+");
 	}
 	rewind(fp);
-	//printf("fp=%p\n",fp);
 	//Try to read in the file system struct 
 	if(fp != NULL) {
 		//open it and read in if exists
 		// file exists
 		// read it into F
 		int bytes_read = fread(F, 1, sizeof(struct file_system), fp);
-		printf("read in %d bytes\n", bytes_read);
 		if( sizeof(struct file_system) != bytes_read) {
-			printf("Could not read it in\n");
 			free(F);
 			F = (struct file_system*)malloc(sizeof(struct file_system));
 			fclose(fp);

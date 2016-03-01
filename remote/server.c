@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		fclose(fin);
-		execl("/home/jdorris7/cs560/new_repo/CS560/bin/sh",NULL);
+		execl("../bin/sh",NULL);
 		perror("messed up");
 		exit(1);
 	}
